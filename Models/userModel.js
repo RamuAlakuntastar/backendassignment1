@@ -1,11 +1,6 @@
-
-
 const mongoose = require('mongoose');
 
-
-
-const userShecmaRules = {
-   
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -21,21 +16,12 @@ const userShecmaRules = {
         required: true,
         minlength: 6
     },
-    confirmPassword: {
-        type: String,
-        required: true,
-        validate: {
-            validator: function (value) {
-                return value === this.password;
-            },
-            message: "Passwords do not match"
-        }
-    },
-    createdAt: { type: Date, default: Date.now }
-}    
+    createdAt: { 
+        type: Date, 
+        default: Date.now 
+    }
+});
 
-const userSchema = new mongoose.Schema(userShecmaRules);
 const UserModel = mongoose.model('UserModel', userSchema);
-
 
 module.exports = UserModel;
