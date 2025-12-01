@@ -17,7 +17,7 @@ const db_url = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@cluster0.5liukrt.mon
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({ origin: "https://clothesshoopingapp.vercel.app/signup", credentials: true }));
 
 // Import routers
 const userRoutes = require("./Routers/userRouter");
