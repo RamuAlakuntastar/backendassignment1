@@ -1,30 +1,20 @@
 const jwt = require("jsonwebtoken");
+const JWT_SECRET = "mysecretkey";
 
-const authMiddleware = async (req, res, next) => {
+const authMiddleware = (req, res, next) => {
   try {
-    
-    const token =
-      req.headers.authorization?.split(" ")[1] ||
-      req.cookies?.jwt;
-
-    if (!token) {
-      return res.status(401).json({
-        status: "failure",
-        message: "No token provided. Unauthorized access"
-      });
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "Token missing" });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, JWT_SECRET);
 
-    
-    req.user = decoded;
-
+    req.user = { id: decoded.id }; // attach user info
     next();
   } catch (err) {
-    return res.status(401).json({
-      status: "failure",
-      message: "Invalid or expired token"
-    });
+    return res.status(401).json({ message: "Invalid token" });
   }
 };
 
